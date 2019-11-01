@@ -42,6 +42,8 @@ namespace TechJobsConsole
                     {
                         List<string> results = JobData.FindAll(columnChoice);
 
+                        results.Sort();
+
                         Console.WriteLine("\n*** All " + columnChoices[columnChoice] + " Values ***");
                         foreach (string item in results)
                         {
@@ -63,12 +65,27 @@ namespace TechJobsConsole
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
+                        if (searchResults.Count < 1)
+                        {
+                            Console.WriteLine("No results. Please try another search term.");
+                        }
+                        else
+                        {
+                            PrintJobs(searchResults);
+                        }
                     }
                     else
                     {
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
-                        PrintJobs(searchResults);
+                        if (searchResults.Count < 1)
+                        {
+                            Console.WriteLine("No results. Please try another search term.");
+                        }
+                        else
+                        {
+                            PrintJobs(searchResults);
+                        }
                     }
                 }
             }
@@ -118,7 +135,16 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
+            foreach (Dictionary<string, string> job in someJobs)
+            {
+                Console.WriteLine("*****");
+                foreach (string key in job.Keys)
+                {
+                    Console.WriteLine(key+": "+job[key]);
+                }
+                Console.WriteLine("*****");
+                Console.WriteLine("");
+            }
         }
     }
 }

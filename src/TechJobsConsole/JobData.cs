@@ -58,6 +58,28 @@ namespace TechJobsConsole
             return jobs;
         }
 
+        //Allows users to search across all columns for a given string
+        public static List<Dictionary<string, string>> FindByValue(string searchTerm)
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> foundJobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                foreach (KeyValuePair<string, string> jobField in job)
+                {
+                    if (jobField.Value.ToLower().Contains(searchTerm.ToLower()))
+                    {
+                        foundJobs.Add(job);
+                        break;
+                    }
+                }
+            }
+            
+            return foundJobs;
+        }
+
         /*
          * Load and parse data from job_data.csv
          */
